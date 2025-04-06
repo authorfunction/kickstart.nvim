@@ -85,13 +85,17 @@ P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
 -- Set <space> as the leader key
--- See `:help mapleader`
+-- See `:help mapleader
+
+-- Source vimrc setting
+vim.cmd.source '~/.vimrc'
+
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -274,6 +278,28 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+  },
+
+  -- NOTE: ML added
+  {
+    'elihunter173/dirbuf.nvim',
+    cmd = { 'Dirbuf' },
+    setup = function()
+      vim.api.nvim_create_autocmd('BufEnter', {
+        command = "if isdirectory(expand('%')) && !&modified|execute 'Dirbuf'|endif",
+      })
+    end,
+  },
+  {
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
